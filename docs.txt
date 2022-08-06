@@ -1,0 +1,37 @@
+Features:
+- Login (username + password)
+- Register
+- Tweet (140 length)
+- Can attach 1 image (jpg, pgn, 1mb max) to tweet
+- Likes
+- Retweets
+
+Models:
+
+User
+- id
+- username
+- pass_hash
+
+Tweet
+- id
+- text
+- image_id//
+- timestamp
+- user_id
+
+Image
+- id
+- timestamp
+- data
+- format
+
+Like
+- user_id
+- tweet_id
+- timestamp
+
+Retweet
+- user_id
+- tweet_id
+- timestamp
