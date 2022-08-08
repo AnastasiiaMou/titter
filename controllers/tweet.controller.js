@@ -1,4 +1,5 @@
 const Tweet = require('../models/tweet.model')
+const User = require('../models/user.model')
 
 async function postTweet(req, res) {
     const id = req.user.id;
@@ -32,12 +33,17 @@ async function getMyTweets (req, res) {
 }
 
 async function getUserFeed (req, res) {
-    const id = req.params.userId;
+    const username = req.params.username;
 
     try {
+        const user = await User.findOne({
+            where: {
+                username: username
+            }
+        })
         const tweets = await Tweet.findAll({
             where: {
-                UserId: id
+                UserId: user.id
             }
         })
 
