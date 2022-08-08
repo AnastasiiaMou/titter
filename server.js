@@ -34,8 +34,8 @@ async function init() {
     //     UserId: 1,
     // })
 
-    app.listen(3000, () => {
-        console.log('server started 3000')
+    app.listen(3001, () => {
+        console.log('server started 3001')
     })
 }
 
