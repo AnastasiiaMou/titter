@@ -6,10 +6,12 @@ const User = require('./models/user.model')
 const Tweet = require('./models/tweet.model')
 
 const userRouter = require('./routers/user.router')
+const tweetRouter = require("./routers/tweet.router");
 
 
 app.use(express.json())
 app.use('/api/users', userRouter);
+app.use('/api/tweets', tweetRouter);
 
 
 

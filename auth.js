@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 
+const User = require('./models/user.model')
+
 function makeToken(username) {
     const token = jwt.sign(username, 'secret12345');
     return token;
@@ -26,8 +28,38 @@ function hashPassword (password) {
     })
 }
 
+async function authMiddleware (req, res, next) {
+    const auth = req.headers['authorization']
+
+    if (auth) {
+        const token = auth.split(' ')[1]
+        const username = verifyToken(token);
+        if (username) {
+            try {
+                const user = await User.findOne({
+                    where: {
+                        username: username
+                    }
+                })
+
+                req.user = user;
+                return next()
+            } catch (e) {
+                console.error(e)
+                return res.sendStatus(400)
+            }
+        } else {
+            console.log(token, auth)
+            return res.sendStatus(401)
+        }
+    }
+
+    return res.sendStatus(401)
+}
+
 module.exports = {
     makeToken,
     verifyToken,
-    hashPassword
+    hashPassword,
+    authMiddleware
 }

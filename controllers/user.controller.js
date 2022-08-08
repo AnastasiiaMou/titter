@@ -66,30 +66,7 @@ async function login (req, res) {
 }
 
 async function me (req, res) {
-    const auth = req.headers['authorization']
-    if (auth) {
-        const token = auth.split(' ')[1]
-        const username = verifyToken(token);
-        if (username) {
-            try {
-                const user = await User.findOne({
-                    where: {
-                        username: username
-                    }
-                })
-
-                return res.json(user);
-            } catch (e) {
-                console.error(e)
-                return res.sendStatus(400)
-            }
-        } else {
-            console.log(token, auth)
-            return res.sendStatus(401)
-        }
-    }
-
-    return res.sendStatus(401)
+    res.json(req.user);
 }
 
 module.exports = {
