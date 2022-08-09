@@ -23,6 +23,13 @@ async function getMyTweets (req, res) {
         const tweets = await Tweet.findAll({
             where: {
                 UserId: id
+            },
+            order: [
+                ['timestamp', 'desc']
+            ],
+            include: {
+                model: User,
+                attributes: ['username']
             }
         })
 
@@ -44,8 +51,17 @@ async function getUserFeed (req, res) {
         const tweets = await Tweet.findAll({
             where: {
                 UserId: user.id
+            },
+            order: [
+                ['timestamp', 'desc']
+            ],
+            include: {
+                model: User,
+                attributes: ['username']
             }
         })
+
+
 
         res.json(tweets)
     } catch (e) {
