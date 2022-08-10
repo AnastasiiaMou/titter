@@ -1,10 +1,11 @@
 Features:
-- Login (username + password)
-- Register
-- Tweet (140 length)
++ Login (username + password)
++ Register
++ Tweet (140 length)
 - Can attach 1 image (jpg, pgn, 1mb max) to tweet
 - Likes
 - Retweets
+- Top 3 posters on main page
 
 Models:
 

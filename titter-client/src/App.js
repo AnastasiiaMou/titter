@@ -2,18 +2,21 @@ import {Route, Routes} from "react-router-dom";
 import FeedPage from "./pages/feed.page";
 import LoginPage from "./pages/login.page";
 import MyFeedPage from "./pages/my-feed.page";
+import MainPage from "./pages/main.page";
+import Layout from "./components/layout.component";
 
 function App() {
   return (
-    <div className="container">
       <Routes>
-        <Route path="/feed/:username" element={<FeedPage/>}/>
+          <Route path="/" exact element={<MainPage/>}/>
+          <Route path="/me" element={<Layout><MyFeedPage/></Layout>}/>
+          <Route path="/feed/:username" element={<Layout><FeedPage/></Layout>}/>
           <Route path="/login" element={<LoginPage/>} />
-          <Route path="/me" element={<MyFeedPage/>}/>
-        <Route path="*" element={<p>not found</p>}/>
+          <Route path="*" element={<p>not found</p>}/>
       </Routes>
-    </div>
   );
 }
+
+
 
 export default App;

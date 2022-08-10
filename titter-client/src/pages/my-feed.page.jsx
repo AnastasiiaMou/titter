@@ -36,15 +36,19 @@ function MyFeedPage(props) {
         getMyFeed()
     }, [])
 
-    return <div>
-        <div className="mb-3">
-            <label htmlFor="exampleFormControlTextarea1" className="form-label">New tweet</label>
-            <textarea className="form-control" id="exampleFormControlTextarea1" rows="3" value={tweet} onChange={e => setTweet(e.target.value)}></textarea>
+    return <div className="row justify-content-center">
+        <div className="col-md-4">
+            <div className="mb-3">
+                <label htmlFor="exampleFormControlTextarea1" className="form-label">New tweet</label>
+                <textarea maxLength={140} className="form-control" id="exampleFormControlTextarea1" rows="3" value={tweet} onChange={e => setTweet(e.target.value)}></textarea>
+                <span className="form-text">{tweet.length}/140</span>
+            </div>
+            <div className="mb-3">
+                <button className="btn btn-primary" onClick={sendTweet}>Tweet!</button>
+            </div>
+            {feed.map(tweet => <Tweet key={tweet.id} tweet={tweet}/> )}
         </div>
-        <div className="mb-3">
-            <button className="btn btn-primary" onClick={sendTweet}>Tweet!</button>
-        </div>
-        {feed.map(tweet => <Tweet key={tweet.id} tweet={tweet}/> )}
+
     </div>
 }
 

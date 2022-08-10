@@ -20,8 +20,12 @@ function FeedPage(props) {
         getFeed()
     }, [username])
 
-    return <div>
-        {feed.map(tweet => <Tweet tweet={tweet}/>)}
+    return <div className="row justify-content-center">
+        <div className="col-md-4">
+            <h4 className="mb-5">@{username}</h4>
+            {feed.map(tweet => <Tweet key={tweet.id} tweet={tweet}/>)}
+        </div>
+
     </div>;
 }
 
