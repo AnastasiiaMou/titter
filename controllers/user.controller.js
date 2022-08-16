@@ -1,13 +1,9 @@
 const User = require('../models/user.model')
-const {verifyToken} = require("../auth");
 const {hashPassword} = require("../auth");
 const {makeToken} = require("../auth");
 
 
-
-
 async function register (req, res) {
-    // {username, password}
     const payload = req.body;
 
     if (payload.username && payload.password) {
@@ -15,7 +11,7 @@ async function register (req, res) {
         try {
             const hash = await hashPassword(payload.password)
 
-            await User.create({
+            await User.createUser({
                 username: payload.username,
                 passHash: hash
             })
@@ -41,11 +37,7 @@ async function login (req, res) {
         try {
             const hash = await hashPassword(password)
 
-            const user = await User.findOne({
-                where: {
-                    username: username
-                }
-            })
+            const user = await User.getUserByUsername(username)
 
             if (user.passHash === hash) {
                 //

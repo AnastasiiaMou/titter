@@ -1,27 +1,28 @@
 const DataTypes = require("sequelize");
 const db = require('../db');
 
-const User = db.define(
-    'User',
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        username: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-            unique: true
-        },
-        passHash: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-        }
-    },
-    {
-        timestamps: false,
+async function createUser (user) {
+    const sql = `INSERT INTO Users (username, passHash) VALUES (?, ?)`
+    try {
+        await db.run(sql, [user.username, user.passHash])
+    } catch (e) {
+        console.error(e)
+        throw e;
     }
-)
+}
 
-module.exports = User;
+async function getUserByUsername(username) {
+    const sql = `SELECT id, username, passHash FROM Users WHERE username = ?`
+    try {
+        const res = await db.get(sql, [username]);
+        return res;
+    } catch (e) {
+        console.error(e)
+        throw e;
+    }
+}
+
+module.exports = {
+    createUser,
+    getUserByUsername,
+};

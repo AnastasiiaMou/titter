@@ -36,11 +36,7 @@ async function authMiddleware (req, res, next) {
         const username = verifyToken(token);
         if (username) {
             try {
-                const user = await User.findOne({
-                    where: {
-                        username: username
-                    }
-                })
+                const user = await User.getUserByUsername(username)
 
                 req.user = user;
                 return next()
