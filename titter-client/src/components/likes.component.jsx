@@ -27,11 +27,13 @@ function Likes ({tweet}) {
     return <>
         {logged ? (
             <>
-                <button type="button" className="btn btn-primary btn-sm" onClick={likeTweet}>Like</button>
+                <button type="button" className="btn btn-primary btn-sm" onClick={likeTweet}>
+                    Like <span className="badge text-bg-secondary"> {tweet.likes}</span>
+                </button>
             </>
         ) : (
             <>
-                <span className="badge bg-secondary">0 ❤</span>
+                <span className="badge bg-secondary">{tweet.likes} ❤</span>
             </>
         )}
     </>

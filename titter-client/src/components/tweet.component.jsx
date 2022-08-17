@@ -5,7 +5,7 @@ function Tweet({tweet}) {
     return (<div className="card mb-4" key={tweet.id}>
         <div className="card-body">
             <h6 className="card-subtitle ">
-                <span> <Link className="card-link" to={"/feed/" + tweet.User.username}>@{tweet.User.username}</Link>  </span>
+                <span> <Link className="card-link" to={"/feed/" + tweet.username}>@{tweet.username}</Link>  </span>
                 <span className="p-2 text-muted">{new Date(tweet.timestamp).toLocaleString()  }</span>
             </h6>
 

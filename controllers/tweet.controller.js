@@ -1,16 +1,13 @@
 const Tweet = require('../models/tweet.model')
-const User = require('../models/user.model')
 const Like = require('../models/like.model')
-const sequelize = require("sequelize");
 
 async function postTweet(req, res) {
     const id = req.user.id;
 
-    //TODO: tweet insert
     try {
-        await Tweet.create({
+        await Tweet.createTweet({
             text: req.body.text,
-            UserId: id,
+            userId: id,
             timestamp: Date.now()
         });
         res.sendStatus(201);
@@ -23,20 +20,7 @@ async function getMyTweets (req, res) {
     const id = req.user.id;
 
     try {
-        //TODO: tweets all my
-        // SELECT tweets.id, tweets.text, tweets.timestamp, users.username from tweets, users WHERE userid=id ORDER BY timestamp DESC
-        const tweets = await Tweet.findAll({
-            where: {
-                UserId: id
-            },
-            order: [
-                ['timestamp', 'desc']
-            ],
-            include: {
-                model: User,
-                attributes: ['username']
-            }
-        })
+        const tweets = await Tweet.getTweetsByUserId(id)
 
         res.json(tweets)
     } catch (e) {
@@ -48,38 +32,7 @@ async function getUserFeed (req, res) {
     const username = req.params.username;
 
     try {
-        //TODO: user feed
-        const user = await User.findOne({
-            where: {
-                username: username
-            }
-        })
-        const tweets = await Tweet.findAll({
-            where: {
-                UserId: user.id
-            },
-            order: [
-                ['timestamp', 'desc']
-            ],
-            include: {
-                model: User,
-                attributes: ['username']
-            },
-            attributes: {
-                include: [
-                    sequelize.literal(`(
-                    SELECT COUNT(*)
-                    FROM Likes AS reaction
-                    WHERE
-                        reaction.TweetId = Tweet.id
-                )`),
-                    'likesCount'
-                ]
-            }
-        })
-
-
-
+        const tweets = await Tweet.getTweetsByUsername(username)
         res.json(tweets)
     } catch (e) {
         res.sendStatus(404)
@@ -90,20 +43,10 @@ async function getTweetById (req, res) {
     const id = req.params.tweetId;
 
     try {
-        // TODO: tweet by id
-        const tweet = await Tweet.findOne({
-            where: {
-                id: id
-            },
-        })
+        const tweet = await Tweet.getTweetById(id)
 
         if (tweet) {
-            const count = await Like.count({
-                where: {
-                    TweetId: id,
-                }
-            })
-            res.json({...tweet.get(), likesCount: count});
+            res.json(tweet);
         } else {
             res.sendStatus(404)
         }
@@ -118,11 +61,10 @@ async function like(req, res) {
     const tweetId = req.params.tweetId;
 
     try {
-        // TODO: create like
 
-        await Like.create({
-            UserId: userId,
-            TweetId: tweetId,
+        await Like.createLike({
+            userId,
+            tweetId,
             timestamp: Date.now(),
         })
         res.sendStatus(201)
