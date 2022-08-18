@@ -74,10 +74,21 @@ async function like(req, res) {
     }
 }
 
+async function top3 (req, res) {
+    try {
+        const tweets = await Tweet.getTop3ByLikes()
+        res.json(tweets)
+    } catch (e) {
+        console.error(e)
+        res.sendStatus(500)
+    }
+}
+
 module.exports = {
     postTweet,
     getMyTweets,
     getUserFeed,
     getTweetById,
-    like
+    like,
+    top3,
 }

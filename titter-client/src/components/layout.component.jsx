@@ -20,7 +20,7 @@ function Layout({children}) {
     return <>
         <nav className="navbar navbar-dark bg-primary">
             <div className="container-fluid">
-                <span className="navbar-brand mb-0 h1">Titter</span>
+                <Link to="/" className="navbar-brand mb-0 h1">Titter</Link>
                 <ul className="navbar-nav">
                     <li className="nav-item">
                         <Link to="/me" className="nav-link">My feed</Link>

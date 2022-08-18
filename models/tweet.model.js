@@ -27,10 +27,21 @@ async function getTweetById(tweetId) {
     const sql = `
         SELECT * from tweets_view
         WHERE 
-        Tweets.id = ?
+        id = ?
     `
     const tweet = await db.get(sql, [tweetId])
     return tweet
+}
+
+async function getTop3ByLikes() {
+    const sql = `
+        SELECT * from tweets_view
+        ORDER BY likes DESC
+        LIMIT 3
+    `
+
+    const tweets = await db.all(sql)
+    return tweets;
 }
 
 
@@ -39,4 +50,5 @@ module.exports = {
     getTweetsByUserId,
     getTweetsByUsername,
     getTweetById,
+    getTop3ByLikes,
 };
